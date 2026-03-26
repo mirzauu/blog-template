@@ -1,7 +1,6 @@
 import { ImageResponse } from "next/og";
-import { docs, meta } from "@/.source";
+import { docs, meta } from "@/.source/server";
 import { loader } from "fumadocs-core/source";
-import { createMDXSource } from "fumadocs-mdx";
 import { getAuthor, isValidAuthor, type AuthorKey } from "@/lib/authors";
 
 export const runtime = "nodejs";
@@ -12,9 +11,41 @@ export const size = {
 };
 export const contentType = "image/png";
 
+interface BlogData {
+  title: string;
+  description: string;
+  date: string;
+  tags?: string[];
+  featured?: boolean;
+  readTime?: string;
+  author?: string;
+  authorImage?: string;
+  thumbnail?: string;
+}
+
+interface BlogPage {
+  url: string;
+  data: BlogData;
+}
+
 const blogSource = loader({
   baseUrl: "/blog",
-  source: createMDXSource(docs, meta),
+  source: {
+    files: [
+      ...docs.map((page: any) => ({
+        type: "page" as const,
+        path: page.info.path,
+        absolutePath: page.info.absolutePath,
+        data: page,
+      })),
+      ...meta.map((m: any) => ({
+        type: "meta" as const,
+        path: m.info.path,
+        absolutePath: m.info.absolutePath,
+        data: m,
+      })),
+    ],
+  },
 });
 
 const getAssetData = async (authorAvatar?: string) => {
@@ -166,7 +197,7 @@ const styles = {
 
 export default async function Image({ params }: { params: { slug: string } }) {
   try {
-    const page = await blogSource.getPage([params.slug]);
+    const page = (await blogSource.getPage([params.slug])) as BlogPage | undefined;
 
     if (!page) {
       return new Response("Blog post not found", { status: 404 });

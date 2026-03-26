@@ -1,13 +1,44 @@
 import { Metadata } from "next";
-import { docs, meta } from "@/.source";
+import { docs, meta } from "@/.source/server";
 import { loader } from "fumadocs-core/source";
-import { createMDXSource } from "fumadocs-mdx";
 import { siteConfig } from "@/lib/site";
 
 const blogSource = loader({
   baseUrl: "/blog",
-  source: createMDXSource(docs, meta),
+  source: {
+    files: [
+      ...docs.map((page: any) => ({
+        type: "page" as const,
+        path: page.info.path,
+        absolutePath: page.info.absolutePath,
+        data: page,
+      })),
+      ...meta.map((m: any) => ({
+        type: "meta" as const,
+        path: m.info.path,
+        absolutePath: m.info.absolutePath,
+        data: m,
+      })),
+    ],
+  },
 });
+
+interface BlogData {
+  title: string;
+  description: string;
+  date: string;
+  tags?: string[];
+  featured?: boolean;
+  readTime?: string;
+  author?: string;
+  authorImage?: string;
+  thumbnail?: string;
+}
+
+interface BlogPage {
+  url: string;
+  data: BlogData;
+}
 
 export async function generateMetadata({
   params,
@@ -24,7 +55,7 @@ export async function generateMetadata({
       };
     }
 
-    const page = blogSource.getPage([slug]);
+    const page = blogSource.getPage([slug]) as BlogPage | undefined;
 
     if (!page) {
       return {

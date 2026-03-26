@@ -1,7 +1,6 @@
-import { docs, meta } from "@/.source";
+import { docs, meta } from "@/.source/server";
 import { DocsBody } from "fumadocs-ui/page";
 import { loader } from "fumadocs-core/source";
-import { createMDXSource } from "fumadocs-mdx";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,9 +20,42 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+interface BlogData {
+  title: string;
+  description: string;
+  date: string;
+  tags?: string[];
+  featured?: boolean;
+  readTime?: string;
+  author?: string;
+  authorImage?: string;
+  thumbnail?: string;
+  body: any;
+}
+
+interface BlogPage {
+  url: string;
+  data: BlogData;
+}
+
 const blogSource = loader({
   baseUrl: "/blog",
-  source: createMDXSource(docs, meta),
+  source: {
+    files: [
+      ...docs.map((page: any) => ({
+        type: "page" as const,
+        path: page.info.path,
+        absolutePath: page.info.absolutePath,
+        data: page,
+      })),
+      ...meta.map((m: any) => ({
+        type: "meta" as const,
+        path: m.info.path,
+        absolutePath: m.info.absolutePath,
+        data: m,
+      })),
+    ],
+  },
 });
 
 const formatDate = (date: Date): string => {
@@ -41,7 +73,7 @@ export default async function BlogPost({ params }: PageProps) {
     notFound();
   }
 
-  const page = blogSource.getPage([slug]);
+  const page = blogSource.getPage([slug]) as BlogPage | undefined;
 
   if (!page) {
     notFound();
