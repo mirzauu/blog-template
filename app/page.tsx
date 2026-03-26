@@ -1,6 +1,5 @@
-import { docs, meta } from "@/.source";
+import { docs, meta } from "@/.source/server";
 import { loader } from "fumadocs-core/source";
-import { createMDXSource } from "fumadocs-mdx";
 import { Suspense } from "react";
 import { BlogCard } from "@/components/blog-card";
 import { TagFilter } from "@/components/tag-filter";
@@ -25,7 +24,22 @@ interface BlogPage {
 
 const blogSource = loader({
   baseUrl: "/blog",
-  source: createMDXSource(docs, meta),
+  source: {
+    files: [
+      ...docs.map((page: any) => ({
+        type: "page" as const,
+        path: page.info.path,
+        absolutePath: page.info.absolutePath,
+        data: page,
+      })),
+      ...meta.map((m: any) => ({
+        type: "meta" as const,
+        path: m.info.path,
+        absolutePath: m.info.absolutePath,
+        data: m,
+      })),
+    ],
+  },
 });
 
 const formatDate = (date: Date): string => {
