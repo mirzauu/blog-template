@@ -3,12 +3,10 @@ import { siteConfig } from "@/lib/site";
 
 export const metadataKeywords = [
     "Blog",
-    "React",
-    "MagicUI Blog",
-    "MagicUI Blog Template",
-    "MagicUI Blog Template Next.js",
-    "MagicUI Blog Template Tailwind",
-    "MagicUI Blog Template Shadcn",
+    "Paperpie Blog",
+    "Paperpie",
+    "Next.js Blog",
+    "Paperpie Blog Template",
     "Next.js Blog",
     "React Blog",
     "Web Development",
@@ -23,11 +21,11 @@ export const metadata: Metadata = {
     keywords: metadataKeywords,
     authors: [
         {
-            name: "MagicUI Team",
-            url: "https://magicui.design",
+            name: "Paperpie Team",
+            url: "https://paperpie.com",
         },
     ],
-    creator: "MagicUI",
+    creator: "Paperpie",
     openGraph: {
         type: "website",
         locale: "en_US",
@@ -40,7 +38,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: siteConfig.name,
         description: siteConfig.description,
-        creator: "@magicui_design",
+        creator: "@paperpie",
     },
     robots: {
         index: true,
