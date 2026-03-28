@@ -1,21 +1,24 @@
 import { docs, meta } from "@/.source/server";
 import { loader } from "fumadocs-core/source";
 import Link from "next/link";
+import Image from "next/image";
 
 const blogSource = loader({
   baseUrl: "/blog",
   source: {
     files: [
-      ...docs.map((page: any) => ({
+      ...docs.map((page) => ({
         type: "page" as const,
         path: page.info.path,
-        absolutePath: page.info.absolutePath,
+        // @ts-expect-error -- absolutePath exists at runtime
+        absolutePath: page.info.absolutePath as string,
         data: page,
       })),
-      ...meta.map((m: any) => ({
+      ...meta.map((m) => ({
         type: "meta" as const,
         path: m.info.path,
-        absolutePath: m.info.absolutePath,
+        // @ts-expect-error -- absolutePath exists at runtime
+        absolutePath: m.info.absolutePath as string,
         data: m,
       })),
     ],
@@ -102,11 +105,12 @@ export function ReadMoreSection({
               >
                 {post.data.thumbnail && (
                   <div className="flex-shrink-0 col-span-1 lg:col-span-4">
-                    <div className="relative w-full h-full">
-                      <img
+                    <div className="relative w-full aspect-video overflow-hidden rounded-lg">
+                      <Image
                         src={post.data.thumbnail}
                         alt={post.data.title}
-                        className="w-full h-full object-cover rounded-lg group-hover:opacity-80 transition-opacity"
+                        fill
+                        className="object-cover group-hover:opacity-80 transition-opacity"
                       />
                     </div>
                   </div>

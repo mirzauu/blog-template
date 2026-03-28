@@ -26,16 +26,18 @@ const blogSource = loader({
   baseUrl: "/blog",
   source: {
     files: [
-      ...docs.map((page: any) => ({
+      ...docs.map((page) => ({
         type: "page" as const,
         path: page.info.path,
-        absolutePath: page.info.absolutePath,
+        // @ts-expect-error -- absolutePath exists at runtime
+        absolutePath: page.info.absolutePath as string,
         data: page,
       })),
-      ...meta.map((m: any) => ({
+      ...meta.map((m) => ({
         type: "meta" as const,
         path: m.info.path,
-        absolutePath: m.info.absolutePath,
+        // @ts-expect-error -- absolutePath exists at runtime
+        absolutePath: m.info.absolutePath as string,
         data: m,
       })),
     ],
@@ -56,7 +58,7 @@ export default async function HomePage({
   searchParams: Promise<{ tag?: string }>;
 }) {
   const resolvedSearchParams = await searchParams;
-  const allPages = blogSource.getPages() as BlogPage[];
+  const allPages = blogSource.getPages() as unknown as BlogPage[];
   const sortedBlogs = allPages.sort((a, b) => {
     const dateA = new Date(a.data.date).getTime();
     const dateB = new Date(b.data.date).getTime();

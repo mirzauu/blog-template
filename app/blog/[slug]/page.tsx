@@ -1,3 +1,4 @@
+import React from "react";
 import { docs, meta } from "@/.source/server";
 import { DocsBody } from "fumadocs-ui/page";
 import { loader } from "fumadocs-core/source";
@@ -30,7 +31,7 @@ interface BlogData {
   author?: string;
   authorImage?: string;
   thumbnail?: string;
-  body: any;
+  body: React.ElementType;
 }
 
 interface BlogPage {
@@ -42,16 +43,18 @@ const blogSource = loader({
   baseUrl: "/blog",
   source: {
     files: [
-      ...docs.map((page: any) => ({
+      ...docs.map((page) => ({
         type: "page" as const,
         path: page.info.path,
-        absolutePath: page.info.absolutePath,
+        // @ts-expect-error -- absolutePath exists at runtime
+        absolutePath: page.info.absolutePath as string,
         data: page,
       })),
-      ...meta.map((m: any) => ({
+      ...meta.map((m) => ({
         type: "meta" as const,
         path: m.info.path,
-        absolutePath: m.info.absolutePath,
+        // @ts-expect-error -- absolutePath exists at runtime
+        absolutePath: m.info.absolutePath as string,
         data: m,
       })),
     ],
