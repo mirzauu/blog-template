@@ -22,14 +22,16 @@ export function PromoContent({
           />
           <div className="flex-1 min-w-0">
             <p className="text-xs font-medium text-foreground/90 truncate">
-              Try Paperpie Pro
+              Try Paperpie
             </p>
             <p className="text-xs text-muted-foreground truncate">
-              Elevate your workflow
+              See how AI can help your business
             </p>
           </div>
           <a
-            href="#"
+            href="https://paperpie.io"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-xs text-primary hover:text-primary/80 font-medium"
             onClick={(e) => e.stopPropagation()}
           >
@@ -41,8 +43,11 @@ export function PromoContent({
   }
 
   return (
-    <div
-      className={cn("border border-border rounded-lg p-4 bg-card", className)}
+    <a
+      href="https://paperpie.io"
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn("block border border-border rounded-lg p-4 bg-card hover:border-primary transition-colors", className)}
     >
       <div className="flex flex-col gap-4">
         <img
@@ -52,13 +57,13 @@ export function PromoContent({
         />
         <div className="flex flex-col gap-1">
           <h3 className="text-lg font-semibold tracking-tighter">
-            Try Paperpie Pro
+            Try Paperpie
           </h3>
           <p className="text-sm text-muted-foreground">
-            Paperpie Pro provides advanced tools for modern creators.
+            See how AI can help your business
           </p>
         </div>
       </div>
-    </div>
+    </a>
   );
 }

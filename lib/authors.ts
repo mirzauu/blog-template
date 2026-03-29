@@ -11,7 +11,7 @@ export const authors: Record<string, Author> = {
     avatar: "/authors/dillion.png",
   },
   arghya: {
-    name: "Arghya Das",
+    name: "Ali Mirsa",
     position: "Design System Engineer",
     avatar: "/authors/arghya.png",
   },

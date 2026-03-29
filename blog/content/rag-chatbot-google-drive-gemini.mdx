@@ -1,0 +1,54 @@
+---
+title: "RAG chatbot for company documents using Google Drive and Gemini"
+description: "Implement a Retrieval Augmented Generation (RAG) chatbot that answers employee questions based on company documents stored in Google Drive using Gemini AI."
+date: "2026-02-05"
+tags: ["RAG", "Chatbot", "Google Drive", "Gemini AI", "Pinecone"]
+featured: true
+readTime: "7 min read"
+author: "arghya"
+thumbnail: "/p3/Screenshot_from_2026-03-29_09-43-55.png"
+---
+
+
+
+The workflow uses Google's Gemini AI for both embeddings and response generation, ensuring high-quality answers and intelligent context retrieval.
+
+## How it works
+
+The workflow uses two Google Drive Trigger nodes: one for detecting new files added to a specified Google Drive folder, and another for detecting file updates in that same folder.
+
+### Automated Indexing: When a new or updated document is detected
+1. **Google Drive download**: The file is downloaded automatically.
+2. **Data Loading**: The Default Data Loader node loads the document content.
+3. **Text Splitting**: The Recursive Character Text Splitter breaks the document into smaller chunks.
+4. **Embeddings**: The Embeddings Google Gemini node generates embeddings for each chunk using `text-embedding-004`.
+5. **Indexing**: The Pinecone Vector Store indexes the chunks and embeddings in a specified index.
+
+<ImageViewer src="/p3/Screenshot_from_2026-03-29_09-44-04.png" alt="Indexing Workflow" />
+
+### Intelligent Querying
+- The Chat Trigger node receives user questions through a chat interface.
+- The AI Agent node uses a Vector Store Tool to retrieve relevant text chunks from Pinecone.
+- Gemini Pro generates a comprehensive answer based on the retrieved documents.
+- Window Buffer Memory provides context-aware conversations.
+
+## Set up steps
+
+### Prerequisites
+
+1.  **Google Cloud Project & Vertex AI**: Create a project and enable the Vertex AI API.
+2.  **Google AI API Key**: Obtain a key from Google AI Studio.
+3.  **Pinecone Account**: Create a free account, get an API key, and create an index named `company-files`.
+4.  **Google Drive**: Create a dedicated folder for your company documents.
+
+<ImageViewer src="/p3/Screenshot_from_2026-03-29_09-44-22.png" alt="Setup Configuration" />
+
+### n8n Configuration
+
+Update both Google Drive Trigger nodes to watch the specific folder you created in your Google Drive. Configure the Pinecone Vector Store nodes to use your `company-files` index.
+
+### Tools Used
+- **Google Drive**
+- **Pinecone Vector Database**
+- **Google Gemini (PaLM/Pro)**
+- **n8n**

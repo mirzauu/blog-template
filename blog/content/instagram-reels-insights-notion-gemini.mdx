@@ -1,0 +1,48 @@
+---
+title: "Top-performing Instagram Reels & save insights to Notion with Gemini & Apify"
+description: "Learn how to discover trending Instagram Reels from competitors and organize insights into a structured Notion database using Gemini AI and Apify."
+date: "2026-02-15"
+tags: ["Instagram", "Reels", "Notion", "Gemini AI", "Apify", "Automation"]
+featured: true
+readTime: "8 min read"
+author: "arghya"
+thumbnail: "/p4/Screenshot_from_2026-03-29_09-48-02.png"
+---
+
+
+
+> [!NOTE]
+> This workflow contains community nodes that are only compatible with the self-hosted version of n8n.
+
+## 📺 How It Works
+
+The workflow automatically monitors selected Instagram accounts using Apify, pulls recent Reels, and analyzes their performance.
+
+1. **Monitor Accounts**: Automatically tracks specified Instagram profiles.
+2. **Performance Analysis**: Calculates engagement levels and detects early “hot” content.
+3. **Translation & Organization**: Translates text if needed and organizes results into a structured Notion database.
+
+<ImageViewer src="/p4/Screenshot_from_2026-03-29_09-48-11.png" alt="Workflow Logic" />
+
+## 👤 Who’s it for
+
+This workflow is for marketers, content creators, social media managers, and automation enthusiasts who want to stay ahead of Instagram Reels trends. Whether you're building a content pipeline or studying competitors, this tool saves hours of manual tracking.
+
+## 🔧 How to set up
+
+1.  **Notion Database**: Create the required databases in Notion (structure file provided).
+2.  **Workflow Import**: Import the `.json` workflow into your n8n instance.
+3.  **Credentials**: Set up credentials for Notion, Apify, and Gemini API.
+4.  **Configuration**: Link credentials and adjust the Variables node with your test account list.
+5.  **Testing**: Run a test with 3–5 profiles and validate the output.
+
+<ImageViewer src="/p4/Screenshot_from_2026-03-29_09-48-19.png" alt="Configuration Details" />
+
+## 📋 Requirements
+- An n8n instance (self-hosted or cloud)
+- A Notion account
+- Apify account (for Instagram scraping)
+- Gemini API key
+
+## 🧩 How to customize the workflow
+The system is fully modular. You can define your own rules for detecting content categories, change video filters (e.g., what counts as “hot”), modify Notion fields, or switch translation languages. Each part of the workflow is clearly labeled and editable.
